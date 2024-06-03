@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -18,6 +20,8 @@ public class EmailService {
     @Value("${email.subject}")
     private String emailSubject;
 
+    private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
+
     public void sendEmail(String to, String name) {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
@@ -25,87 +29,17 @@ public class EmailService {
         try {
             helper.setTo(to);
             helper.setSubject(emailSubject);
-            
-            String messageContent = "I hope this message finds you well. I'm Irfan, representing HM Consultant and Services, a firm specializing in IT recruitment, particularly in the domains of DevOps and AWS engineering.\n\n" +
-                    "I wanted to share some exciting news with you. We've recently conducted thorough pre-screening interviews and successfully qualified over 200 candidates, specifically targeting DevOps and AWS engineering roles. These professionals are equipped with the skills and experience necessary to excel in demanding IT environments.\n\n" +
-                    "I believe our collaboration could significantly enhance your company's recruitment efforts in these critical areas. Would you be available for a brief call or meeting to discuss how we can assist you in fulfilling your DevOps and AWS engineering staffing needs?\n\n" +
-                    "Looking forward to the opportunity to support your recruitment objectives.\n\n" +
+            String messageContent = "I hope this message finds you well. I'm Irfan, representing HM Consultant and Services. We specialize in IT recruitment across various domains.\n\n" +
+                    "Our rigorous pre-screening process has qualified over 200 highly skilled candidates ready to excel in various IT roles. We are confident in our ability to meet your specific staffing needs.\n\n" +
+                    "We would love the opportunity to discuss how we can support your recruitment efforts. Could we schedule a brief call or meeting to explore potential collaboration?\n\n" +
                     "Best regards,\nIrfan Sayyed\nHM Consultant and Services";
-            helper.setText("hello "+name+",\n"+messageContent);
-//            helper.setText("Hello " + name + ","
-//            		+ "\r\n"
-//            		+ "I hope this message finds you well. I'm Irfan, representing HM Consultant and Services, a firm specializing in IT recruitment, particularly in the domains of DevOps and AWS engineering.\r\n"
-//            		+ "\r\n"
-//            		+ "I wanted to share some exciting news with you. We've recently conducted thorough pre-screening interviews and successfully qualified over 200 candidates, specifically targeting DevOps and AWS engineering roles. These professionals are equipped with the skills and experience necessary to excel in demanding IT environments.\r\n"
-//            		+ "\r\n"
-//            		+ "I believe our collaboration could significantly enhance your company's recruitment efforts in these critical areas. Would you be available for a brief call or meeting to discuss how we can assist you in fulfilling your DevOps and AWS engineering staffing needs?\r\n"
-//            		+ "\r\n"
-//            		+ "Looking forward to the opportunity to support your recruitment objectives.\r\n"
-//            		+ "\r\n"
-//            		+ "Best regards,\r\n"
-//            		+ "Irfan Sayyed \r\n"
-//            		+ "HM Consultant and Services");
-//            helper.setText("Hello " + name + ",\r\n"
-//                    + "\r\n"
-//                    + "I hope this message finds you well. I'm Irfan, representing HM Consultant and Services, a firm specializing in IT recruitment, particularly in the domains of DevOps and AWS engineering.\r\n"
-//                    + "\r\n"
-//                    + "I wanted to share some exciting news with you. We've recently conducted thorough pre-screening interviews and successfully qualified over 200 candidates, specifically targeting DevOps and AWS engineering roles. These professionals are equipped with the skills and experience necessary to excel in demanding IT environments.\r\n"
-//                    + "\r\n"
-//                    + "I believe our collaboration could significantly enhance your company's recruitment efforts in these critical areas. Would you be available for a brief call or meeting to discuss how we can assist you in fulfilling your DevOps and AWS engineering staffing needs?\r\n"
-//                    + "\r\n"
-//                    + "Looking forward to the opportunity to support your recruitment objectives.\r\n"
-//                    + "\r\n"
-//                    + "Best regards,\r\n"
-//                    + "Irfan Sayyed\r\n"
-//                    + "HM Consultant and Services");
-//            String emailText = "Hello " + name + ",\r\n" +
-//                    "\r\n" +
-//                    "I hope this message finds you well. I'm Irfan, representing HM Consultant and Services, a firm specializing in IT recruitment, particularly in the domains of DevOps and AWS engineering.\r\n" +
-//                    "\r\n" +
-//                    "I wanted to share some exciting news with you. We've recently conducted thorough pre-screening interviews and successfully qualified over 200 candidates, specifically targeting DevOps and AWS engineering roles. These professionals are equipped with the skills and experience necessary to excel in demanding IT environments.\r\n" +
-//                    "\r\n" +
-//                    "I believe our collaboration could significantly enhance your company's recruitment efforts in these critical areas. Would you be available for a brief call or meeting to discuss how we can assist you in fulfilling your DevOps and AWS engineering staffing needs?\r\n" +
-//                    "\r\n" +
-//                    "Looking forward to the opportunity to support your recruitment objectives.\r\n" +
-//                    "\r\n" +
-//                    "Best regards,\r\n" +
-//                    "Irfan Sayyed\r\n" +
-//                    "HM Consultant and Services";
-//
-//            helper.setText(emailText);
-            
-//            String emailText = "<html><body>" +
-//                    "<p>Hello " + name + ",</p>" +
-//                    "<p>I hope this message finds you well. I'm Irfan, representing HM Consultant and Services, a firm specializing in IT recruitment, particularly in the domains of DevOps and AWS engineering.</p>" +
-//                    "<p>I wanted to share some exciting news with you. We've recently conducted thorough pre-screening interviews and successfully qualified over 200 candidates, specifically targeting DevOps and AWS engineering roles. These professionals are equipped with the skills and experience necessary to excel in demanding IT environments.</p>" +
-//                    "<p>I believe our collaboration could significantly enhance your company's recruitment efforts in these critical areas. Would you be available for a brief call or meeting to discuss how we can assist you in fulfilling your DevOps and AWS engineering staffing needs?</p>" +
-//                    "<p>Looking forward to the opportunity to support your recruitment objectives.</p>" +
-//                    "<p>Best regards,<br>Irfan Sayyed<br>HM Consultant and Services</p>" +
-//                    "</body></html>";
-//
-//            helper.setText(emailText, true); // Set HTML content
-            
-//            String emailText = "Hello " + name + ",\r\n" +
-//                    "\r\n"
-//                    + "\r\n"
-//                    + "I hope this message finds you well. I'm Irfan, representing HM Consultant and Services, a firm specializing in IT recruitment, particularly in the domains of DevOps and AWS engineering.\r\n"
-//                    + "\r\n"
-//                    + "I wanted to share some exciting news with you. We've recently conducted thorough pre-screening interviews and successfully qualified over 200 candidates, specifically targeting DevOps and AWS engineering roles. These professionals are equipped with the skills and experience necessary to excel in demanding IT environments.\r\n"
-//                    + "\r\n"
-//                    + "I believe our collaboration could significantly enhance your company's recruitment efforts in these critical areas. Would you be available for a brief call or meeting to discuss how we can assist you in fulfilling your DevOps and AWS engineering staffing needs?\r\n"
-//                    + "\r\n"
-//                    + "Looking forward to the opportunity to support your recruitment objectives.\r\n"
-//                    + "\r\n"
-//                    + "Best regards,\r\n"
-//                    + "Irfan Sayyed \r\n"
-//                    + "HM Consultant and Services";
-//            helper.setText(emailText);
-
-
+            helper.setText("Hello " + name + ",\n" + messageContent);
 
             javaMailSender.send(message);
+            logger.info("Email sent to: {} at {}", name, to);
         } catch (MessagingException e) {
-            e.printStackTrace();
+            logger.error("Failed to send email to: {} at {}", name, to, e);
         }
     }
 }
+
